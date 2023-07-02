@@ -1,4 +1,4 @@
-name: dotnetcore_sendmail
+name: dotnetcore_sendmail_approval
 
 on:
   push:
@@ -11,16 +11,15 @@ on:
   
 jobs:
   build-dotnet-app:
-
     runs-on: ubuntu-latest
-    
     defaults:
       run:
         working-directory: app-dotnet
+        
     steps:
-    - uses: dawidd6/action-send-mail@v3
+    - uses: dawidd6/action-send-mail@v3   # Send Mail
       with:
-        connection_url: ${{secrets.MAIL_CONNECTION}}
+        #connection_url: ${{secrets.MAIL_CONNECTION}}
         server_address: smtp.gmail.com
         server_port: 465
         secure: true
@@ -29,8 +28,40 @@ jobs:
         subject: Github Actions job result
         to: rsarkar@pathinfotech.com
         from: srajib2271@gmail.com
-        body: Build job of ${{github.repository}} requires appoval for build, please visits Github portal and approve with comment as approve, approved or yes.
+        html_body: 'Hi Team,<br><br>nBuild job of ${{github.repository}} requires appoval for build, please visits Github portal and approve with comment as approve, approved or yes.<br><br><br><br> Regards,<br> GitHub Action bot'
+    - uses: trstringer/manual-approval@v1    #  Manual approval
+      with:
+          secret: ${{ github.TOKEN }}
+          approvers: srajib429
+   
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+  
+    - name: Restore dependencies
+      run: dotnet restore
       
-    
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release  
+      
+    - name: SFTP uploader
+      uses: wangyucode/sftp-upload-action@v2.0.2
+      with:
+        host: ${{secrets.HOST}}
+        port: ${{secrets.PORT}}
+        username: ${{secrets.USERNAME}}
+        password: ${{secrets.PWD}}
+        localDir: '/home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/'
+        remoteDir: '/home/tomcat/code'
+     
+      
+   
       
    
