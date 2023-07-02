@@ -1,0 +1,36 @@
+name: dotnetcore_sendmail
+
+on:
+  push:
+    branches: none # [ main ]
+  pull_request:
+    branches: none # [ main ]
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  build-dotnet-app:
+
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: app-dotnet
+    steps:
+    - uses: dawidd6/action-send-mail@v3
+      with:
+        connection_url: ${{secrets.MAIL_CONNECTION}}
+        server_address: smtp.gmail.com
+        server_port: 465
+        secure: true
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Github Actions job result
+        to: rsarkar@pathinfotech.com
+        from: srajib2271@gmail.com
+        body: Build job of ${{github.repository}} requires appoval for build, please visits Github portal and approve with comment as approve, approved or yes.
+      
+    
+      
+   

@@ -8,7 +8,7 @@ on:
     
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+  
 jobs:
   build-dotnet-app:
 
@@ -17,10 +17,13 @@ jobs:
     defaults:
       run:
         working-directory: app-dotnet
-
     steps:
+    - uses: trstringer/manual-approval@v1
+      with:
+          secret: ${{ github.TOKEN }}
+          approvers: srajib429
+   
     - uses: actions/checkout@v3
-    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
