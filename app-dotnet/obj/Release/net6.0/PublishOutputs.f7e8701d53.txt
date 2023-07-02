@@ -1,0 +1,7 @@
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\app-dotnet.exe
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\appsettings.Development.json
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\appsettings.json
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\app-dotnet.dll
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\app-dotnet.deps.json
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\app-dotnet.runtimeconfig.json
+D:\StudyGithubAction\app-dotnet\bin\Release\net6.0\publish\app-dotnet.pdb
