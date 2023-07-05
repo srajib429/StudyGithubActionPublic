@@ -1,4 +1,4 @@
-name: dotnetcore_sendmail_approval
+name: dotnetcoreManualApproval
 
 on:
   push:
@@ -11,24 +11,12 @@ on:
   
 jobs:
   build-dotnet-app:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         working-directory: app-dotnet
         
     steps:
-    - uses: dawidd6/action-send-mail@v3   # Send Mail
-      with:
-        #connection_url: ${{secrets.MAIL_CONNECTION}}
-        server_address: smtp.gmail.com
-        server_port: 465
-        secure: true
-        username: ${{secrets.MAIL_USERNAME}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        subject: Github Actions job result
-        to: rsarkar@pathinfotech.com
-        from: srajib2271@gmail.com
-        html_body: 'Hi Team,<br><br>Build job of ${{github.repository}} requires appoval for build, please visits Github portal and approve with comment as approve, approved or yes.<br><br><br><br> Regards,<br> GitHub Action bot'
     - uses: trstringer/manual-approval@v1    #  Manual approval
       with:
           secret: ${{ github.TOKEN }}
@@ -61,11 +49,6 @@ jobs:
         password: ${{secrets.PWD}}
         localDir: '/home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/'
         remoteDir: '/home/tomcat/code'
-     
-      
-   
-      
-   
      
       
    
