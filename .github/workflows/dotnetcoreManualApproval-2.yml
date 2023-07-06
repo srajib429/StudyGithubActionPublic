@@ -40,5 +40,15 @@ jobs:
           path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
           if-no-files-found: error
           
+  download-artifact:
+    runs-on: 'self-hosted'
+    if: ${{ always() }}
+    needs: [build-dotnet-app]
+    steps:
+    - name: download artifact from Github
+    - uses: actions/download-artifact@v3
+      with:
+        name: website
+        path: D:\\home\\tomcat\\code
 
     
