@@ -1,66 +1,49 @@
 name: dotnetcoreManualApproval2
-
 on:
   push:
-    branches: none # [ main ]
+    branches: none
   pull_request:
-    branches: none # [ main ]
-    
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  
+    branches: none
+  workflow_dispatch: null
 jobs:
   build-dotnet-app:
     runs-on: self-hosted
     defaults:
       run:
         working-directory: app-dotnet
-        
     steps:
-    - uses: trstringer/manual-approval@v1    #  Manual approval
-      with:
+      - uses: trstringer/manual-approval@v1
+        with:
           secret: ${{ github.TOKEN }}
           approvers: srajib429,blossom429
           minimum-approvals: 1
-          
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-  
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Publish
-      run: dotnet publish -c Release  
-      
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: website
-        path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
-        if-no-files-found: error
-        
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Publish
+        run: dotnet publish -c Release
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: website
+          path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
+          if-no-files-found: error
   download-artifact:
-      runs-on: self-hosted
-      if: ${{ always() }}
-      needs: [build-dotnet-app]  
-      steps:
+    runs-on: self-hosted
+    if: ${{ always() }}
+    needs:
+      - build-dotnet-app
+    steps:
       - name: download artifact from Github
       - uses: actions/download-artifact@v3
         with:
           name: website
           path: D:\\home\\tomcat\\code
-      
-    
-     
-      
-   
-      
-   
