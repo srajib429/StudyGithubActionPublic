@@ -45,10 +45,17 @@ jobs:
     if: ${{ always() }}
     needs: [build-dotnet-app]
     
-    steps:
+    steps: 
+    - name: stop IIS site
+      run: |
+        C:\Windows\System32\inetsrv\appcmd stop site /site.name:"website"
+        
     - uses: actions/download-artifact@v3
       with:
         name: website
         path: D:\\home\\tomcat\\code
-
+        
+    - name: Start IIS Site
+      run: |
+         C:\Windows\System32\inetsrv\appcmd start site /site.name:"website" 
     
