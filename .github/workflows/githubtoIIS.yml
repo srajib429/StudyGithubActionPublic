@@ -1,26 +1,41 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: dotnetcore-GITHUB_to_IIS
+name: dotnetcore_approval_manual
 
 on:
   push:
     branches: none # [ main ]
   pull_request:
-    branches: none # [ main ]   
+    branches: none # [ main ]
     
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+  
 jobs:
   build-dotnet-app:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: app-dotnet
+        
     steps:
+    - uses: dawidd6/action-send-mail@v3   # Send Mail
+      with:
+        #connection_url: ${{secrets.MAIL_CONNECTION}}
+        server_address: smtp.gmail.com
+        server_port: 465
+        secure: true
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Github Actions job result
+        to: rsarkar@pathinfotech.com
+        from: srajib2271@gmail.com
+        html_body: 'Hi Team,<br><br>Build job of ${{github.repository}} requires appoval for build, please visits Github portal and approve with comment as approve, approved or yes.<br><br><br><br> Regards,<br> GitHub Action bot'
+    - uses: trstringer/manual-approval@v1    #  Manual approval
+      with:
+          secret: ${{ github.TOKEN }}
+          approvers: srajib429,blossom429
+          minimum-approvals: 1
+          
     - uses: actions/checkout@v3
-    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -34,9 +49,8 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      
     - name: Publish
-      run: dotnet publish -c Release 
+      run: dotnet publish -c Release  
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3
@@ -44,7 +58,7 @@ jobs:
         name: website
         path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
         if-no-files-found: error
-        
+     
   download-artifact:
     runs-on: self-hosted
     if: ${{ always() }}
@@ -62,5 +76,12 @@ jobs:
         
     - name: Start IIS Site
       run: |
-         C:\Windows\System32\inetsrv\appcmd start site /site.name:"website"
-  
+         C:\Windows\System32\inetsrv\appcmd start site /site.name:"website"   
+   
+      
+   
+     
+      
+   
+      
+   
