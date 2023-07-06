@@ -10,7 +10,7 @@ on:
   
 jobs:
   build-dotnet-app:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: app-dotnet
