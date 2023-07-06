@@ -1,4 +1,4 @@
-name: dotnetcoreManualApproval
+name: dotnetcoreManualApproval2
 
 on:
   push:
@@ -39,6 +39,13 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish -c Release  
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: website
+        path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
+        if-no-files-found: error
       
     
      
