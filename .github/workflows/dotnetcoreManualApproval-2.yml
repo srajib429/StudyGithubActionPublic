@@ -36,4 +36,17 @@ jobs:
           name: website
           path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
           if-no-files-found: error
-  
+  download-artifact:
+    runs-on: 'self-hosted'
+    if: ${{ always() }}
+    needs: [build-dotnet-app]
+    steps:
+    - name: SFTP downloader
+      uses: Dylan700/sftp-upload-action@latest
+      with:
+        server: ${{secrets.HOST}}
+        username: ${{secrets.USERNAME}}
+        password: ${{secrets.PWD}}
+        port: ${{secrets.PORT}}
+        uploads: | 
+          /home/tomcat/code/ => d:/home/tomcat/code
