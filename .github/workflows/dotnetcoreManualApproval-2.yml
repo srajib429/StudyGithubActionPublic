@@ -48,16 +48,15 @@ jobs:
         if-no-files-found: error
         
   download-artifact:
-    runs-on: self-hosted
-    if: ${{ always() }}
-    needs: [build-dotnet-app]
-    
-    steps:
-    - name: download artifact from Github
-    - uses: actions/download-artifact@v3
-      with:
-        name: website
-        path: D:\\home\\tomcat\\code
+      runs-on: self-hosted
+      if: ${{ always() }}
+      needs: [build-dotnet-app]  
+      steps:
+      - name: download artifact from Github
+      - uses: actions/download-artifact@v3
+        with:
+          name: website
+          path: D:\\home\\tomcat\\code
       
     
      
