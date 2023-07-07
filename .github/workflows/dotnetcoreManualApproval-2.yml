@@ -48,7 +48,7 @@ jobs:
     steps: 
     - name: stop IIS site
       run: |
-        C:\Windows\System32\inetsrv\iisreset /stop
+        iisreset /stop
         
     - uses: actions/download-artifact@v3
       with:
@@ -57,5 +57,5 @@ jobs:
         
     - name: Start IIS Site
       run: |
-         C:\Windows\System32\inetsrv\iisreset /start
+         iisreset /start
     
