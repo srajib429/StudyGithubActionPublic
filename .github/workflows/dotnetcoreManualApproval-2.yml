@@ -1,7 +1,7 @@
 name: dotnetcoreManualApproval2
 on:
   push:
-    branches: none # [ main ]
+    branches: main
   pull_request:
     branches: none # [ main ]
     
