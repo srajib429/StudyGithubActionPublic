@@ -34,12 +34,12 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release
       - name: Compress files into a ZIP
-        run: zip -r /tmp/Release.zip /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
+        run: zip release.zip ./* -r
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: website
-          path: /tmp/Release.zip
+          name: Release
+          path: release.zip
           if-no-files-found: error
           
   download-artifact:
