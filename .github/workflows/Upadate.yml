@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  build-dotnet-app:
+  build-zip-dotnet-app:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,8 +33,8 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Publish
         run: dotnet publish -c Release
-      - name: Zip artifact for deployment
-        run: zip release.zip /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/** -r
+      - name: Compress files into a ZIP
+        run: zip -r Release.zip release
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -45,7 +45,7 @@ jobs:
   download-artifact:
     runs-on: self-hosted
     if: ${{ always() }}
-    needs: [build-dotnet-app]
+    needs: [build-zip-dotnet-app]
     
     steps: 
     - name: stop IIS site
