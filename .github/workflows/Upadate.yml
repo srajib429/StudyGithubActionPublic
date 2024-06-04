@@ -34,7 +34,7 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Publish
         run: dotnet publish -c Release
-	  - name: Zip artifact for deployment
+      - name: Zip artifact for deployment
         run: zip release.zip /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/** -r
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
@@ -54,7 +54,7 @@ jobs:
         iisreset /stop
 		
     - name: unzip artifact for deployment
-    run: unzip release.zip
+      run: unzip release.zip
 	
     - uses: actions/download-artifact@v3
       with:
