@@ -34,12 +34,12 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release
       - name: Compress files into a ZIP
-        run: zip release.zip ./* -r
+        run: zip /tmp/release.zip ./* -r
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
           name: Release
-          path: release.zip
+          path: /tmp/release.zip
           if-no-files-found: error
           
   download-artifact:
