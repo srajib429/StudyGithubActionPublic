@@ -1,5 +1,5 @@
 
-name: dotnetcoreManualApproval2
+name: updateprocess
 on:
   push:
     branches: main
