@@ -33,8 +33,10 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Publish
         run: dotnet publish -c Release
+      - name: Change directory
+        run: cd /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish
       - name: Compress files into a ZIP
-        run: zip /tmp/release.zip ./* -r
+        run:  zip /tmp/release.zip ./* -r      
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -46,13 +48,12 @@ jobs:
     runs-on: self-hosted
     if: ${{ always() }}
     needs: [build-dotnet-app]
-    
     steps:    
     - uses: actions/download-artifact@v3
       with:
         name: Release
         path: D:\\home\\
     - name: unzip artifact for deployment
-      run: unzip D:\\home\\release.zip
+      run: unzip D:\\home\\release.zip -d D:\\home
       
     
