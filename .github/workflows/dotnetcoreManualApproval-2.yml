@@ -38,7 +38,7 @@ jobs:
       - name: Compress files into a ZIP
         run:  zip /tmp/release.zip ./* -r      
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Release
           path: /tmp/release.zip
