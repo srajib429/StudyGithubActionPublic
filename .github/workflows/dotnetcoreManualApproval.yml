@@ -1,4 +1,4 @@
-name: dotnetcoreManualApproval2
+name: dotnetcoreManualApproval
 on:
   push:
     branches: main
@@ -33,15 +33,11 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Publish
         run: dotnet publish -c Release
-      - name: Change directory
-        run: cd /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish
-      - name: Compress files into a ZIP
-        run:  zip /tmp/release.zip ./* -r      
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Release
-          path: /tmp/release.zip
+          name: website
+          path: /home/runner/work/StudyGithubActionPublic/StudyGithubActionPublic/app-dotnet/bin/Release/net6.0/publish/**
           if-no-files-found: error
           
   download-artifact:
