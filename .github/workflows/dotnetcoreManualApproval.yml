@@ -48,12 +48,19 @@ jobs:
     runs-on: self-hosted
     if: ${{ always() }}
     needs: [build-dotnet-app]
-    steps:    
+    
+    steps: 
+    - name: stop IIS site
+      run: |
+        iisreset /stop
+        
     - uses: actions/download-artifact@v4
       with:
-        name: Release
-        path: D:\\Madhur\\
-    - name: unzip artifact for deployment
-      run: unzip D:\\Madhur\\release.zip -d D:\\Madhur
+        name: website
+        path: D:\\home\\tomcat\\code
+        
+    - name: Start IIS Site
+      run: |
+         iisreset /start
       
     
